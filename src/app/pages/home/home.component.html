@@ -1,30 +1,48 @@
 <section class="todoapp">
-    <header class="header">
-      <div class="container">
-        <h2>My Day</h2>
-        <p>All my tasks in one place</p>
-        <input
-          class="new-todo"
-          placeholder="Type new todo"
-          autofocus
-          type="text"
-          (change)="changeHandler($event)"
-        />
-      </div>
-    </header>
-    <div class="container todoapp-wrapper">
-      <!-- This section should be hidden by default and shown when there are todos -->
-      <section class="main">
-        <ul class="todo-list">
-          <li *ngFor="let task of tasks(); index as i">
-            <div class="view">
-              <input class="toggle" type="checkbox" title="Mark as completed" />
-              <label>{{ task }}</label>
-              <button class="destroy" title="Delete task" (click)="deleteTask(i)"></button>
-            </div>
-            <input class="edit" value="Buy a unicorn" title="Edit task" placeholder="Edit task" />
-          </li>
-          <!-- <li class="completed">
+  <header class="header">
+    <div class="container">
+      <h2>My Day</h2>
+      <p>All my tasks in one place</p>
+      <input
+        class="new-todo"
+        placeholder="Type new todo"
+        autofocus
+        type="text"
+        (change)="changeHandler($event)"
+      />
+    </div>
+  </header>
+  <div class="container todoapp-wrapper">
+    <!-- This section should be hidden by default and shown when there are todos -->
+    <section class="main">
+      <ul class="todo-list">
+        <li
+          [class.completed]="task.completed"
+          *ngFor="let task of tasks(); index as i"
+        >
+          <div class="view">
+            <input
+              class="toggle"
+              type="checkbox"
+              title="Mark as completed"
+              [checked]="task.completed"
+              (click)="toggleChecked(i)"
+            />
+            <label>{{ task.title }}</label>
+            <button
+              class="destroy"
+              title="Delete task"
+              (click)="deleteTask(i)"
+            ></button>
+          </div>
+          <input
+            class="edit"
+            value="Buy a unicorn"
+            title="Edit task"
+            placeholder="Edit task"
+          />
+        </li>
+        <!-- <li class="completed">
             <div class="view">
               <input class="toggle" type="checkbox" checked title="Mark as completed" />
               <label>Learn JavaScript</label>
@@ -48,26 +66,26 @@
             </div>
             <input class="edit" value="Make dishes" title="Edit task" placeholder="Edit task" />
           </li> -->
-        </ul>
-      </section>
-      <!-- This footer should be hidden by default and shown when there are todos -->
-      <footer class="footer">
-        <!-- This should be `0 items left` by default -->
-        <span class="todo-count"><strong>0</strong> item left</span>
-        <!-- Remove this if you don't implement routing -->
-        <ul class="filters">
-          <li>
-            <a routerLink="/" class="selected">All</a>
-          </li>
-          <li>
-            <a routerLink="/pending">Pending</a>
-          </li>
-          <li>
-            <a routerLink="/completed">Completed</a>
-          </li>
-        </ul>
-        <!-- Hidden if no completed items are left ↓ -->
-        <button class="clear-completed">Clear completed</button>
-      </footer>
-    </div>
-  </section>
+      </ul>
+    </section>
+    <!-- This footer should be hidden by default and shown when there are todos -->
+    <footer class="footer">
+      <!-- This should be `0 items left` by default -->
+      <span class="todo-count"><strong>0</strong> item left</span>
+      <!-- Remove this if you don't implement routing -->
+      <ul class="filters">
+        <li>
+          <a routerLink="/" class="selected">All</a>
+        </li>
+        <li>
+          <a routerLink="/pending">Pending</a>
+        </li>
+        <li>
+          <a routerLink="/completed">Completed</a>
+        </li>
+      </ul>
+      <!-- Hidden if no completed items are left ↓ -->
+      <button class="clear-completed">Clear completed</button>
+    </footer>
+  </div>
+</section>
