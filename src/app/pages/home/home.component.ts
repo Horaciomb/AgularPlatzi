@@ -21,7 +21,6 @@ export class HomeComponent {
     const input = event.target as HTMLInputElement;
     const newTasks = input.value;
     this.addTask(newTasks);
-    
   }
   toggleChecked(index: number) {
     this.tasks.update((value) =>
@@ -35,13 +34,26 @@ export class HomeComponent {
       })
     );
   }
-  addTask(title: string){
-    const newTask={
-      id:Date.now(),
-      title:title,
-      completed:false
-    }
+  addTask(title: string) {
+    const newTask = {
+      id: Date.now(),
+      title: title,
+      completed: false,
+    };
     this.tasks.update((tasks) => [...tasks, newTask]);
+  }
+  updateTask(index: number) {
+    this.tasks.update((tasks) => {
+      return tasks.map((task, position) => {
+        if (position === index) {
+          return {
+            ...task,
+            completed: !task.completed,
+          };
+        }
+        return task;
+      });
+    });
   }
   deleteTask(index: number) {
     this.tasks.update((tasks) =>
