@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-labs',
@@ -13,6 +13,7 @@ export class LabsComponent {
     'Regar las plantas',
     'Leer el libro'
   ];
+  name = signal('Horacio');
   disabled=true;
   person={
     name:'Horacio',
@@ -24,6 +25,9 @@ export class LabsComponent {
     alert('Hola');
   };
   changeHandler(event: Event){
+    const input= event.target as HTMLInputElement;
+    const newValue= input.value;
+    this.name.set(newValue )
     console.log(event);
   }
   keydownHandler(event:KeyboardEvent){
