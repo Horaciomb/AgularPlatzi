@@ -8,11 +8,11 @@ import { CommonModule } from '@angular/common';
 })
 export class LabsComponent {
   welcome = 'Que dice Angular';
-  tasks=[
+  tasks=signal([
     'Instalar Angular',
     'Regar las plantas',
     'Leer el libro'
-  ];
+  ]);
   name = signal('Horacio');
   disabled=true;
   person={
