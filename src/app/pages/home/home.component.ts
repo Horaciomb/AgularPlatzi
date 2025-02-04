@@ -1,9 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
+import { FormControl, ReactiveFormsModule, Validators ,AbstractControl} from '@angular/forms';
+const noWhitespaceValidator = (control: AbstractControl) => {
+  const hasWhitespace = /\s/.test(control.value);
+  return hasWhitespace ? { hasWhitespace: true } : null;
+};
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -17,10 +22,21 @@ export class HomeComponent {
     { id: Date.now(), title: 'Preparar la cena', completed: false },
     { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
   ]);
-  changeHandler(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newTasks = input.value;
-    this.addTask(newTasks);
+  newTaskCtrl = new FormControl('', {
+    nonNullable: true,
+    validators: [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+      noWhitespaceValidator // 👈 Validador personalizado
+    ],
+  });
+  changeHandler() {
+    if (this.newTaskCtrl.valid) {
+      const value = this.newTaskCtrl.value;
+      this.addTask(value);
+      this.newTaskCtrl.setValue('');
+    }
   }
   toggleChecked(index: number) {
     this.tasks.update((value) =>

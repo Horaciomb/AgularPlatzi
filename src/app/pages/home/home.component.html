@@ -8,8 +8,15 @@
         placeholder="Type new todo"
         autofocus
         type="text"
-        (change)="changeHandler($event)"
+        [formControl]="newTaskCtrl"
+        (keydown.enter)="changeHandler()"
       />
+      <div *ngIf="newTaskCtrl.errors">
+        <p *ngIf="newTaskCtrl.errors['required']">⚠️ Campo obligatorio</p>
+        <p *ngIf="newTaskCtrl.errors['minlength']">Mínimo 3 caracteres</p>
+        <p *ngIf="newTaskCtrl.errors['maxlength']">Máximo 50 caracteres</p>
+        <p *ngIf="newTaskCtrl.errors['hasWhitespace']">¡No se permiten espacios!</p>
+      </div>
     </div>
   </header>
   <div class="container todoapp-wrapper">
