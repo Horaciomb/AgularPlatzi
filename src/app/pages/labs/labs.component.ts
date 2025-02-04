@@ -15,12 +15,12 @@ export class LabsComponent {
   ]);
   name = signal('Horacio');
   disabled=true;
-  person={
+  person=signal({
     name:'Horacio',
     lastname:'Molina',
     edad:24,
     img:'https://i.imgur.com/Yxbw7Ui.jpeg'
-  };
+  });
   clickHandler(){
     alert('Hola');
   };
@@ -33,5 +33,15 @@ export class LabsComponent {
   keydownHandler(event:KeyboardEvent){
     const input=event.target as HTMLInputElement;
     console.log(input.value);
+  }
+  changeAge(event: Event){
+    const input= event.target as HTMLInputElement;
+    const newValue= input.value;
+    this.person.update(prevState=>{
+      return{
+        ...prevState,
+        edad: parseInt(newValue,10)
+      }
+    });
   }
 }

@@ -9,32 +9,26 @@
   <hr />
   <h2>{{ "Hola".repeat(4) }}</h2>
   <p>la suma de 3+3 es {{ 3 + 3 }}</p>
-  <p>Hola soy {{ name() }} y mi edad es {{ person.edad }}</p>
+  <p>Hola soy {{ name() }} y mi edad es {{ person().edad }}</p>
   <hr />
-  <img [src]="person.img" alt="" />
+  <img [src]="person().img" alt="" />
   <input
     type="text"
-    [value]="person.name"
+    [value]="person().name"
     title="Enter your name"
     placeholder="Name"
   />
   <button [disabled]="disabled">Cliclk</button>
-  <p>Persona: {{ person.name }} {{ person.lastname }}</p>
+  <p>Persona: {{ person().name }} {{ person().lastname }}</p>
   <hr />
   <button (click)="clickHandler()">Click me</button>
   <button (dblclick)="clickHandler()">doble click</button>
   <p>(change)</p>
-  <input
-    type="number"
-    [value]="person.edad"
-    title="Enter your age"
-    placeholder="2"
-    (change)="changeHandler($event)"
-  />
+  
   <p>(change)</p>
   <input
     type="text"
-    [value]="person.name"
+    [value]="person().name"
     title="Enter your name"
     placeholder="nombre"
     (change)="changeHandler($event)"
@@ -42,7 +36,7 @@
   <p>(keydown)</p>
   <input
     type="text"
-    [value]="person.name"
+    [value]="person().name"
     title="Enter your name"
     placeholder="nombre"
     (keydown)="keydownHandler($event)"
@@ -50,14 +44,14 @@
   <p>(keydown shift t)</p>
   <input
     type="text"
-    [value]="person.name"
+    [value]="person().name"
     title="Enter your name"
     placeholder="nombre"
     (keydown.shift.t)="clickHandler()"
   />
   <hr />
+  <p>total: {{ tasks().length }} elementos</p>
   <ul>
-    <p>total: {{tasks().length}} elementos</p>
     <li *ngFor="let task of tasks(); index as i">{{ i }} {{ task }}</li>
   </ul>
   <h1>Signals</h1>
@@ -69,4 +63,21 @@
     (change)="changeHandler($event)"
   />
   <p>name:{{ name() }}</p>
+  <hr/>
+  <div *ngIf="1!==1">
+    My content
+  </div>
+  <input
+    type="number"
+    [value]="person().edad"
+    title="Enter your age"
+    placeholder="2"
+    (change)="changeAge($event)"
+  />
+  <div *ngIf="person().name==='Horacio' && person().edad>18; else elseblock">
+    Soy {{name()}} y son mayor a {{person().edad}} años
+  </div>
+  <ng-template #elseblock>
+    Soy {{name()}} y soy menor a 18 años
+  </ng-template>
 </div>
