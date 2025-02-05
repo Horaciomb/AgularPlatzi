@@ -1,7 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
-import { FormControl, ReactiveFormsModule, Validators ,AbstractControl} from '@angular/forms';
+import {
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 const noWhitespaceValidator = (control: AbstractControl) => {
   const hasWhitespace = /\s/.test(control.value);
   return hasWhitespace ? { hasWhitespace: true } : null;
@@ -28,14 +33,16 @@ export class HomeComponent {
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(50),
-      noWhitespaceValidator // 👈 Validador personalizado
+      // noWhitespaceValidator // 👈 Validador personalizado
     ],
   });
   changeHandler() {
     if (this.newTaskCtrl.valid) {
-      const value = this.newTaskCtrl.value;
-      this.addTask(value);
-      this.newTaskCtrl.setValue('');
+      const value = this.newTaskCtrl.value.trim();
+      if (value !== '') {
+        this.addTask(value);
+        this.newTaskCtrl.setValue('');
+      }
     }
   }
   toggleChecked(index: number) {

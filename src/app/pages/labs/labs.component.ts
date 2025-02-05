@@ -3,62 +3,61 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-labs',
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './labs.component.html',
-  styleUrl: './labs.component.css'
+  styleUrl: './labs.component.css',
 })
 export class LabsComponent {
   welcome = 'Que dice Angular';
-  tasks=signal([
-    'Instalar Angular',
-    'Regar las plantas',
-    'Leer el libro'
-  ]);
+  tasks = signal(['Instalar Angular', 'Regar las plantas', 'Leer el libro']);
   name = signal('Horacio');
-  disabled=true;
-  person=signal({
-    name:'Horacio',
-    lastname:'Molina',
-    edad:24,
-    img:'https://i.imgur.com/Yxbw7Ui.jpeg'
+  disabled = true;
+  person = signal({
+    name: 'Horacio',
+    lastname: 'Molina',
+    edad: 24,
+    img: 'https://i.imgur.com/Yxbw7Ui.jpeg',
   });
-  clickHandler(){
+  clickHandler() {
     alert('Hola');
-  };
-  changeHandler(event: Event){
-    const input= event.target as HTMLInputElement;
-    const newValue= input.value;
-    this.name.set(newValue )
+  }
+  changeHandler(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.name.set(newValue);
     console.log(event);
   }
-  keydownHandler(event:KeyboardEvent){
-    const input=event.target as HTMLInputElement;
+  keydownHandler(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
     console.log(input.value);
   }
-  changeName(event: Event){
-    const input= event.target as HTMLInputElement;
-    const newValue= input.value;
-    this.person.update(prevState=>{
-      return{
+  changeName(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.person.update((prevState) => {
+      return {
         ...prevState,
-        name: newValue
-      }
+        name: newValue,
+      };
     });
   }
-  changeAge(event: Event){
-    const input= event.target as HTMLInputElement;
-    const newValue= input.value;
-    this.person.update(prevState=>{
-      return{
+  changeAge(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.person.update((prevState) => {
+      return {
         ...prevState,
-        edad: parseInt(newValue,10)
-      }
+        edad: parseInt(newValue, 10),
+      };
     });
   }
-  colorCtrl=new FormControl();
-  constructor(){
-    this.colorCtrl.valueChanges.subscribe(value=>{
-      console.log(value)
-    })
+  colorCtrl = new FormControl();
+  constructor() {
+    this.colorCtrl.valueChanges.subscribe((value) => {
+      //console.log(value)
+    });
   }
+  widthCtrl = new FormControl(50, {
+    nonNullable: true,
+  });
 }
