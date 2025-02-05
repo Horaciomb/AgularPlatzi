@@ -107,5 +107,11 @@
   <hr>
   <input type="number" title="Enter your name" [formControl]="widthCtrl">
   <span class="box" [style.width.px]="widthCtrl.value"></span>
-
+  <hr/>
+  <p>
+    <input type="text" title="Enter your" [formControl]="nameCtrl"/> <br/>
+    <span class="message-error"[class.show]="nameCtrl.invalid && nameCtrl.touched">Nombre inválido</span>
+    <br/>
+    <input type="text" title="Enter your" [formControl]="nameCtrl"/> 
+  </p>
 </div>
