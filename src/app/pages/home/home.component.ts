@@ -21,11 +21,11 @@ export class HomeComponent {
   tasks = signal<Task[]>([
     { id: Date.now(), title: 'Instalar Angular', completed: false },
     { id: Date.now(), title: 'Regar las plantas', completed: true },
-    { id: Date.now(), title: 'Leer el libro', completed: false },
-    { id: Date.now(), title: 'Hacer ejercicio', completed: true },
-    { id: Date.now(), title: 'Limpiar la casa', completed: false },
-    { id: Date.now(), title: 'Preparar la cena', completed: false },
-    { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
+    // { id: Date.now(), title: 'Leer el libro', completed: false },
+    // { id: Date.now(), title: 'Hacer ejercicio', completed: true },
+    // { id: Date.now(), title: 'Limpiar la casa', completed: false },
+    // { id: Date.now(), title: 'Preparar la cena', completed: false },
+    // { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
   ]);
   newTaskCtrl = new FormControl('', {
     nonNullable: true,
@@ -82,5 +82,21 @@ export class HomeComponent {
     this.tasks.update((tasks) =>
       tasks.filter((task, position) => position !== index)
     );
+  }
+  updateTaskEditingMode(index: number) {
+    this.tasks.update((tasks) => {
+      return tasks.map((task, position) => {
+        if (position === index) {
+          return {
+            ...task,
+            editing: true,
+          };
+        }
+        return {
+          ...task,
+          editing: false,
+        };
+      });
+    });
   }
 }
