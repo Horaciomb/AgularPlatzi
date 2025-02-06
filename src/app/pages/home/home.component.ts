@@ -18,7 +18,7 @@ const noWhitespaceValidator = (control: AbstractControl) => {
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  filter = signal('all');
+  filter = signal<'all'|'pending'|'completed'>('all');
   tasksByFilter = computed(() => {
     const filter = this.filter();
     const tasks = this.tasks();
@@ -126,7 +126,7 @@ export class HomeComponent {
       });
     });
   }
-  changeFilter(filter: string) {
+  changeFilter(filter: 'all'|'pending'|'completed') {
     this.filter.set(filter);
   }
 }

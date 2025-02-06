@@ -90,8 +90,8 @@
     <footer class="footer">
       <!-- This should be `0 items left` by default -->
       <span class="todo-count"
-        ><strong>{{ tasks().length }}</strong>
-        <span *ngIf="tasks().length === 1; else elseblock"> item </span>
+        ><strong>{{ tasksByFilter().length }}</strong>
+        <span *ngIf="tasksByFilter().length === 1; else elseblock"> item </span>
         <ng-template #elseblock> items </ng-template>
         left</span
       >
