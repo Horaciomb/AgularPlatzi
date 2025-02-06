@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
 import {
@@ -18,14 +18,26 @@ const noWhitespaceValidator = (control: AbstractControl) => {
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  filter = signal('all');
+  tasksByFilter = computed(() => {
+    const filter = this.filter();
+    const tasks = this.tasks();
+    if (filter === 'pending') {
+      return tasks.filter((tasks) => !tasks.completed);
+    }
+    if (filter === 'completed') {
+      return tasks.filter((tasks) => tasks.completed);
+    }
+    return tasks;
+  });
   tasks = signal<Task[]>([
     { id: Date.now(), title: 'Instalar Angular', completed: false },
     { id: Date.now(), title: 'Regar las plantas', completed: true },
-    // { id: Date.now(), title: 'Leer el libro', completed: false },
-    // { id: Date.now(), title: 'Hacer ejercicio', completed: true },
-    // { id: Date.now(), title: 'Limpiar la casa', completed: false },
-    // { id: Date.now(), title: 'Preparar la cena', completed: false },
-    // { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
+    { id: Date.now(), title: 'Leer el libro', completed: false },
+    { id: Date.now(), title: 'Hacer ejercicio', completed: true },
+    { id: Date.now(), title: 'Limpiar la casa', completed: false },
+    { id: Date.now(), title: 'Preparar la cena', completed: false },
+    { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
   ]);
   newTaskCtrl = new FormControl('', {
     nonNullable: true,
@@ -113,5 +125,8 @@ export class HomeComponent {
         return task;
       });
     });
+  }
+  changeFilter(filter: string) {
+    this.filter.set(filter);
   }
 }
