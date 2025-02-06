@@ -53,6 +53,7 @@
           </div>
           <input
             class="edit"
+            (keydown.enter)="updateTaskText(i,$event)"
             [value]="task.title"
             title="Edit task"
             placeholder="Edit task"
