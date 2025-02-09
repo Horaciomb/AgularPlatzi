@@ -1,4 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  Injector,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
 import {
@@ -7,10 +14,10 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-const noWhitespaceValidator = (control: AbstractControl) => {
-  const hasWhitespace = /\s/.test(control.value);
-  return hasWhitespace ? { hasWhitespace: true } : null;
-};
+// const noWhitespaceValidator = (control: AbstractControl) => {
+//   const hasWhitespace = /\s/.test(control.value);
+//   return hasWhitespace ? { hasWhitespace: true } : null;
+// };
 @Component({
   selector: 'app-home',
   imports: [CommonModule, ReactiveFormsModule],
@@ -18,7 +25,30 @@ const noWhitespaceValidator = (control: AbstractControl) => {
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  filter = signal<'all'|'pending'|'completed'>('all');
+  injector = inject(Injector);
+  // constructor() {
+
+  // }
+  ngOnInit() {
+    const storage = localStorage.getItem('tasks');
+    if (storage) {
+      const tasks = JSON.parse(storage);
+      this.tasks.set(tasks);
+    }
+    this.trackTasks();
+  }
+
+  trackTasks() {
+    effect(
+      () => {
+        const tasks = this.tasks();
+        console.log(tasks);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      },
+      { injector: this.injector }
+    );
+  }
+  filter = signal<'all' | 'pending' | 'completed'>('all');
   tasksByFilter = computed(() => {
     const filter = this.filter();
     const tasks = this.tasks();
@@ -31,13 +61,13 @@ export class HomeComponent {
     return tasks;
   });
   tasks = signal<Task[]>([
-    { id: Date.now(), title: 'Instalar Angular', completed: false },
-    { id: Date.now(), title: 'Regar las plantas', completed: true },
-    { id: Date.now(), title: 'Leer el libro', completed: false },
-    { id: Date.now(), title: 'Hacer ejercicio', completed: true },
-    { id: Date.now(), title: 'Limpiar la casa', completed: false },
-    { id: Date.now(), title: 'Preparar la cena', completed: false },
-    { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
+    // { id: Date.now(), title: 'Instalar Angular', completed: false },
+    // { id: Date.now(), title: 'Regar las plantas', completed: true },
+    // { id: Date.now(), title: 'Leer el libro', completed: false },
+    // { id: Date.now(), title: 'Hacer ejercicio', completed: true },
+    // { id: Date.now(), title: 'Limpiar la casa', completed: false },
+    // { id: Date.now(), title: 'Preparar la cena', completed: false },
+    // { id: Date.now(), title: 'Estudiar JavaScript', completed: true },
   ]);
   newTaskCtrl = new FormControl('', {
     nonNullable: true,
@@ -126,7 +156,7 @@ export class HomeComponent {
       });
     });
   }
-  changeFilter(filter: 'all'|'pending'|'completed') {
+  changeFilter(filter: 'all' | 'pending' | 'completed') {
     this.filter.set(filter);
   }
 }
